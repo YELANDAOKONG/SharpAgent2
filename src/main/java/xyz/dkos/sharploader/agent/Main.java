@@ -19,6 +19,7 @@ public class Main {
         System.exit(1);
     }
 
+    public static volatile boolean switched = false;
     public static volatile boolean initialized = false;
 
     public static void setInitialized(boolean initialized) {
@@ -26,6 +27,18 @@ public class Main {
     }
 
     public static void premain(String args, Instrumentation inst) {
+        if (!switched){
+            System.out.println("[+] Hello, World!");
+            System.out.println("[&] Switching Thread...");
+            Thread mainThread = new Thread(() -> {
+                premain(args, inst);
+            });
+            mainThread.start();
+            return;
+        }else{
+            System.out.println("[&] Thread Switched...");
+        }
+
         System.out.println("[+] Hello, World!");
         System.out.println("Loader Agent initializing...");
 
