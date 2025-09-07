@@ -19,6 +19,10 @@ public class Main {
 
     public static volatile boolean initialized = false;
 
+    public static void setInitialized(boolean initialized) {
+        Main.initialized = initialized;
+    }
+
     public static void premain(String args, Instrumentation inst) {
         System.out.println("[+] Hello, World!");
         System.out.println("Loader Agent initializing...");
