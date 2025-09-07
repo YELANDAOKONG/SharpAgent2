@@ -21,4 +21,15 @@ public class Logger {
         Logger.fatal("(Test) Hello, World! ");
         Logger.off("(Test) Hello, World! ");
     }
+
+    public static void test(long i){
+        Logger.all("(Test) Hello, World! (" + i + ")");
+        Logger.trace("(Test) Hello, World! (" + i + ")");
+        Logger.debug("(Test) Hello, World! (" + i + ")");
+        Logger.info("(Test) Hello, World! (" + i + ")");
+        Logger.warn("(Test) Hello, World! (" + i + ")");
+        Logger.error("(Test) Hello, World! (" + i + ")");
+        Logger.fatal("(Test) Hello, World! (" + i + ")");
+        Logger.off("(Test) Hello, World! (" + i + ")");
+    }
 }
