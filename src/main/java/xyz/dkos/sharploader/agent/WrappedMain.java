@@ -22,6 +22,7 @@ public class WrappedMain {
             System.out.println("[&] (Main) Thread Switched...");
         }
 
+        System.out.println("(Main) Wrapped main started.");
         while (!Main.finished) {
             try {
                 Thread.sleep(100);
@@ -35,6 +36,7 @@ public class WrappedMain {
         CustomClassLoader classLoader = new CustomClassLoader();
         Thread.currentThread().setContextClassLoader(classLoader);
         Main.premainInst.addTransformer(new ClassTransformer());
+        Logger.info("Custom classloader created.");
 
         // TODO...
 
