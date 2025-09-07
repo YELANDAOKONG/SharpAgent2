@@ -13,12 +13,16 @@ public class Main {
         System.out.println("Agent cannot be run directly. Please use -javaagent option.");
         System.err.println("Agent cannot be run directly. Please use -javaagent option.");
         System.exit(1);
+        // throw new RuntimeException("Agent cannot be run directly. Please use -javaagent option.");
+        return;
     }
 
     public static void agentmain(String args, Instrumentation inst) {
         System.out.println("Agent cannot be attached after startup.");
         System.err.println("Agent cannot be attached after startup.");
         System.exit(1);
+        // throw new RuntimeException("Agent cannot be attached after startup.");
+        return;
     }
 
     public static volatile boolean switched = false;

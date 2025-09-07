@@ -3,13 +3,24 @@ package xyz.dkos.sharploader.agent;
 import xyz.dkos.sharploader.agent.loader.ClassTransformer;
 import xyz.dkos.sharploader.agent.loader.CustomClassLoader;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.Map;
 
 public class WrappedMain {
+
+    private static Map<String, String> cachedEnvironment = null;
+
+    static {
+        try {
+            cachedEnvironment = System.getenv();
+        } catch (Exception e) {
+            System.err.println("Failed to get environment variables: " + e.getMessage());
+        }
+    }
 
     public static volatile boolean switched = false;
 
     public static void main(String[] args) {
+        /*
         if (!switched){
             System.out.println("[+] (Main) Hello, World!");
             System.out.println("[&] (Main) Switching Thread...");
@@ -23,6 +34,7 @@ public class WrappedMain {
         }else{
             System.out.println("[&] (Main) Thread Switched...");
         }
+        */
 
         System.out.println("(Main) Wrapped main started.");
         while (!Main.finished) {
@@ -40,7 +52,7 @@ public class WrappedMain {
         Main.premainInst.addTransformer(new ClassTransformer());
         Logger.info("(Main) Custom classloader created.");
 
-        String mainClassName = System.getenv("MAIN");
+        String mainClassName = cachedEnvironment.get("MAIN"); // System.getenv("MAIN");
         Logger.info("(Main) Main Environment: " + mainClassName);
         if (mainClassName == null || mainClassName.trim().isEmpty()) {
             Logger.error("(Main) Environment variable MAIN is not set or empty.");
@@ -70,7 +82,8 @@ public class WrappedMain {
 
             mainMethod.invoke(null, (Object) args);
             Logger.info("(Main) Main method completed successfully");
-
+            System.exit(0);
+            return;
         } catch (Exception e) {
             Logger.error("(Main) Failed to start main class: " + mainClassName);
             Logger.error("(Main) Exception: " + e.getClass().getName() + ": " + e.getMessage());
