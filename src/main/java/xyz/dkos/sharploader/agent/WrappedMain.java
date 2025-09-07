@@ -12,6 +12,7 @@ public class WrappedMain {
             System.out.println("[+] (Main) Hello, World!");
             System.out.println("[&] (Main) Switching Thread...");
             Thread mainThread = new Thread(() -> {
+                switched = true;
                 main(args);
             });
             mainThread.setName("Switched Main Thread");

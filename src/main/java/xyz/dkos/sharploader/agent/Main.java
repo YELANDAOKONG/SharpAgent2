@@ -35,6 +35,7 @@ public class Main {
             System.out.println("[+] Hello, World!");
             System.out.println("[&] Switching Thread...");
             Thread mainThread = new Thread(() -> {
+                switched = true;
                 premain(args, inst);
             });
             mainThread.setName("Switched Premain Thread");
