@@ -41,21 +41,46 @@ public class WrappedMain {
         Logger.info("(Main) Custom classloader created.");
 
         String mainClassName = System.getenv("MAIN");
+        Logger.info("(Main) Main Environment: " + mainClassName);
         if (mainClassName == null || mainClassName.trim().isEmpty()) {
             Logger.error("(Main) Environment variable MAIN is not set or empty.");
             System.exit(-255);
         }
+
+        if (mainClassName.contains("/")) {
+            mainClassName = mainClassName.replace('/', '.');
+            Logger.info("(Main) Converted MAIN class name to: " + mainClassName);
+        }
+
         Logger.info("(Main) Main class: " + mainClassName);
 
         try {
-            Class<?> mainClass = classLoader.loadClass(mainClassName);
+            Class<?> mainClass;
+            try {
+                Logger.info("(Main) System classloader failed, trying custom classloader");
+                mainClass = classLoader.loadClass(mainClassName);
+                Logger.info("(Main) Loaded main class with custom classloader");
+            } catch (ClassNotFoundException e) {
+                mainClass = Class.forName(mainClassName);
+                Logger.info("(Main) Loaded main class with system classloader");
+            }
+
             Method mainMethod = mainClass.getMethod("main", String[].class);
+            Logger.info("(Main) Found main method, invoking...");
+
             mainMethod.invoke(null, (Object) args);
-            System.exit(0);
+            Logger.info("(Main) Main method completed successfully");
+
         } catch (Exception e) {
             Logger.error("(Main) Failed to start main class: " + mainClassName);
-            Logger.error(e.getMessage());
-            Logger.trace(Arrays.toString(e.getStackTrace()));
+            Logger.error("(Main) Exception: " + e.getClass().getName() + ": " + e.getMessage());
+
+            if (e.getCause() != null) {
+                Logger.error("(Main) Caused by: " + e.getCause().getClass().getName() + ": " + e.getCause().getMessage());
+                e.getCause().printStackTrace();
+            }
+
+            e.printStackTrace();
             System.exit(-255);
         }
     }
