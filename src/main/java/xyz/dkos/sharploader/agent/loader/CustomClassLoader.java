@@ -1,5 +1,7 @@
 package xyz.dkos.sharploader.agent.loader;
 
+import xyz.dkos.sharploader.agent.Logger;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
@@ -29,7 +31,9 @@ public class CustomClassLoader extends ClassLoader {
             }
             byte[] classData = baos.toByteArray();
 
+            Logger.debug("(ClassLoader) Class: " + name);
             if (shouldModifyClass(name)) {
+                Logger.debug("(ClassLoader) Modify: " + name);
                 classData = modifyClassFile(name, classData);
             }
 

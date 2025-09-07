@@ -1,5 +1,7 @@
 package xyz.dkos.sharploader.agent.loader;
 
+import xyz.dkos.sharploader.agent.Logger;
+
 import java.lang.instrument.ClassFileTransformer;
 import java.security.ProtectionDomain;
 
@@ -17,7 +19,9 @@ public class ClassTransformer implements ClassFileTransformer {
             return null;
         }
 
+        Logger.debug("(ClassTransformer) Class: " + className);
         if (shouldModifyClass(className)) {
+            Logger.debug("(ClassTransformer) Modify: " + className);
             return modifyClassFile(className, classfileBuffer);
         }
 
