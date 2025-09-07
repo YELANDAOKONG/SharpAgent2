@@ -3,6 +3,9 @@ package xyz.dkos.sharploader.agent.loader;
 import java.lang.instrument.ClassFileTransformer;
 import java.security.ProtectionDomain;
 
+import static xyz.dkos.sharploader.agent.NativeMethods.modifyClassFile;
+import static xyz.dkos.sharploader.agent.NativeMethods.shouldModifyClass;
+
 public class ClassTransformer implements ClassFileTransformer {
 
     @Override
@@ -20,8 +23,4 @@ public class ClassTransformer implements ClassFileTransformer {
 
         return null;
     }
-
-    public static native boolean shouldModifyClass(String className);
-
-    public static native byte[] modifyClassFile(String className, byte[] classfileBuffer);
 }

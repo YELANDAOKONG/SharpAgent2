@@ -3,6 +3,9 @@ package xyz.dkos.sharploader.agent.loader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+import static xyz.dkos.sharploader.agent.NativeMethods.modifyClassFile;
+import static xyz.dkos.sharploader.agent.NativeMethods.shouldModifyClass;
+
 public class CustomClassLoader extends ClassLoader {
 
     public CustomClassLoader() {
@@ -35,8 +38,4 @@ public class CustomClassLoader extends ClassLoader {
             throw new ClassNotFoundException(name, e);
         }
     }
-
-    public static native boolean shouldModifyClass(String className);
-
-    public static native byte[] modifyClassFile(String className, byte[] classfileBuffer);
 }
