@@ -5,6 +5,8 @@ import xyz.dkos.sharploader.agent.loader.CustomClassLoader;
 
 import java.lang.instrument.Instrumentation;
 
+import static xyz.dkos.sharploader.agent.NativeMethods.notifyExit;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -27,6 +29,10 @@ public class Main {
         System.out.println("[+] Hello, World!");
         System.out.println("Loader Agent initializing...");
 
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            notifyExit(0);
+        }));
+
         System.out.println("Waiting for Loader initialization...");
         while (!initialized) {
             try {
@@ -44,5 +50,7 @@ public class Main {
         CustomClassLoader classLoader = new CustomClassLoader();
         Thread.currentThread().setContextClassLoader(classLoader);
         inst.addTransformer(new ClassTransformer());
+
+        Logger.info("Agent method completed.");
     }
 }
