@@ -23,7 +23,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>xyz.dkos.sharploader.agent.Main</mainClass>
+                            <mainClass>xyz.dkos.sharploader.agent.WrappedMain</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Premain-Class>xyz.dkos.sharploader.agent.Main</Premain-Class>

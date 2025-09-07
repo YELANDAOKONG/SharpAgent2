@@ -21,6 +21,10 @@ public class Main {
 
     public static volatile boolean switched = false;
     public static volatile boolean initialized = false;
+    public static volatile boolean finished = false;
+
+    public static volatile String premainArgs;
+    public static volatile Instrumentation premainInst;
 
     public static void setInitialized(boolean initialized) {
         Main.initialized = initialized;
@@ -33,11 +37,15 @@ public class Main {
             Thread mainThread = new Thread(() -> {
                 premain(args, inst);
             });
+            mainThread.setName("Switched Premain Thread");
             mainThread.start();
             return;
         }else{
             System.out.println("[&] Thread Switched...");
         }
+
+        premainArgs = args;
+        premainInst = inst;
 
         System.out.println("[+] Hello, World!");
         System.out.println("Loader Agent initializing...");
@@ -60,10 +68,11 @@ public class Main {
         System.out.println("Loader initialization completed.");
         Logger.info("Loader initialization completed.");
 
-        CustomClassLoader classLoader = new CustomClassLoader();
-        Thread.currentThread().setContextClassLoader(classLoader);
-        inst.addTransformer(new ClassTransformer());
+        // CustomClassLoader classLoader = new CustomClassLoader();
+        // Thread.currentThread().setContextClassLoader(classLoader);
+        // inst.addTransformer(new ClassTransformer());
 
         Logger.info("Agent method completed.");
+        finished = true;
     }
 }
