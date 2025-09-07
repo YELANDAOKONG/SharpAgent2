@@ -51,6 +51,8 @@ public class WrappedMain {
 
         Logger.info("(Main) Current Thread Id: " + Thread.currentThread().threadId());
         Logger.info("(Main) Current Thread Name: " + Thread.currentThread().getName());
+        Logger.info("(Main) Class Path: " + System.getProperty("java.class.path"));
+        Logger.info("(Main) Main Length: " + args.length);
 
         CustomClassLoader classLoader = new CustomClassLoader();
         Thread.currentThread().setContextClassLoader(classLoader);
@@ -82,7 +84,7 @@ public class WrappedMain {
                     mainClass = Class.forName(mainClassName);
                     Logger.info("(Main) Loaded main class with system classloader");
                 }catch (ClassNotFoundException e2) {
-                    Logger.error("(Main) Custom classloader failed");
+                    Logger.error("(Main) System classloader failed");
                     return;
                 }
             }
