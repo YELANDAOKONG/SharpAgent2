@@ -17,7 +17,7 @@ public class WrappedMain {
         }
     }
 
-    public static volatile boolean switched = false;
+    // public static volatile boolean switched = false;
 
     public static void main(String[] args) {
         /*
@@ -52,7 +52,7 @@ public class WrappedMain {
         Main.premainInst.addTransformer(new ClassTransformer());
         Logger.info("(Main) Custom classloader created.");
 
-        String mainClassName = cachedEnvironment.get("MAIN"); // System.getenv("MAIN");
+        String mainClassName = System.getenv("MAIN"); // cachedEnvironment.get("MAIN");
         Logger.info("(Main) Main Environment: " + mainClassName);
         if (mainClassName == null || mainClassName.trim().isEmpty()) {
             Logger.error("(Main) Environment variable MAIN is not set or empty.");
