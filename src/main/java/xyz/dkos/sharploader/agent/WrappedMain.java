@@ -38,13 +38,14 @@ public class WrappedMain {
         CustomClassLoader classLoader = new CustomClassLoader();
         Thread.currentThread().setContextClassLoader(classLoader);
         Main.premainInst.addTransformer(new ClassTransformer());
-        Logger.info("Custom classloader created.");
+        Logger.info("(Main) Custom classloader created.");
 
         String mainClassName = System.getenv("MAIN");
         if (mainClassName == null || mainClassName.trim().isEmpty()) {
-            Logger.error("Environment variable MAIN is not set or empty.");
+            Logger.error("(Main) Environment variable MAIN is not set or empty.");
             System.exit(-255);
         }
+        Logger.info("(Main) Main class: " + mainClassName);
 
         try {
             Class<?> mainClass = classLoader.loadClass(mainClassName);
@@ -52,7 +53,7 @@ public class WrappedMain {
             mainMethod.invoke(null, (Object) args);
             System.exit(0);
         } catch (Exception e) {
-            Logger.error("Failed to start main class: " + mainClassName);
+            Logger.error("(Main) Failed to start main class: " + mainClassName);
             Logger.error(e.getMessage());
             Logger.trace(Arrays.toString(e.getStackTrace()));
             System.exit(-255);

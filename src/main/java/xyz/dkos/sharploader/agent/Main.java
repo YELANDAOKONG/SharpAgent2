@@ -10,11 +10,13 @@ import static xyz.dkos.sharploader.agent.NativeMethods.notifyExit;
 public class Main {
 
     public static void main(String[] args) {
+        System.out.println("Agent cannot be run directly. Please use -javaagent option.");
         System.err.println("Agent cannot be run directly. Please use -javaagent option.");
         System.exit(1);
     }
 
     public static void agentmain(String args, Instrumentation inst) {
+        System.out.println("Agent cannot be attached after startup.");
         System.err.println("Agent cannot be attached after startup.");
         System.exit(1);
     }
