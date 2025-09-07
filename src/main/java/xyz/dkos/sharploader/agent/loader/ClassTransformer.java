@@ -21,7 +21,7 @@ public class ClassTransformer implements ClassFileTransformer {
         return null;
     }
 
-    private native boolean shouldModifyClass(String className);
+    private static native boolean shouldModifyClass(String className);
 
-    private native byte[] modifyClassFile(String className, byte[] classfileBuffer);
+    private static native byte[] modifyClassFile(String className, byte[] classfileBuffer);
 }
