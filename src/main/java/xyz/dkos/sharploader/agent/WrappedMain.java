@@ -5,6 +5,8 @@ import xyz.dkos.sharploader.agent.loader.CustomClassLoader;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import static xyz.dkos.sharploader.agent.NativeMethods.notifyExit;
+
 public class WrappedMain {
 
     private static Map<String, String> cachedEnvironment = null;
@@ -47,6 +49,9 @@ public class WrappedMain {
             }
         }
 
+        Logger.info("(Main) Current Thread Id: " + Thread.currentThread().threadId());
+        Logger.info("(Main) Current Thread Name: " + Thread.currentThread().getName());
+
         CustomClassLoader classLoader = new CustomClassLoader();
         Thread.currentThread().setContextClassLoader(classLoader);
         Main.premainInst.addTransformer(new ClassTransformer());
@@ -82,7 +87,7 @@ public class WrappedMain {
 
             mainMethod.invoke(null, (Object) args);
             Logger.info("(Main) Main method completed successfully");
-            System.exit(0);
+            // System.exit(0);
             return;
         } catch (Exception e) {
             Logger.error("(Main) Failed to start main class: " + mainClassName);
@@ -95,6 +100,8 @@ public class WrappedMain {
 
             e.printStackTrace();
             System.exit(-255);
+        } finally {
+            notifyExit(0);
         }
     }
 }

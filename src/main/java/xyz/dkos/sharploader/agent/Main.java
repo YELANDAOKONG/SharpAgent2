@@ -59,9 +59,9 @@ public class Main {
         System.out.println("[+] Hello, World!");
         System.out.println("Loader Agent initializing...");
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            notifyExit(0);
-        }));
+        // Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        //     notifyExit(0);
+        // }));
 
         System.out.println("Waiting for Loader initialization...");
         while (!initialized) {
