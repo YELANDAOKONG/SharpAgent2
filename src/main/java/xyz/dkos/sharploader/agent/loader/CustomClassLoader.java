@@ -36,7 +36,7 @@ public class CustomClassLoader extends ClassLoader {
         }
     }
 
-    private static native boolean shouldModifyClass(String className);
+    public static native boolean shouldModifyClass(String className);
 
-    private static native byte[] modifyClassFile(String className, byte[] classfileBuffer);
+    public static native byte[] modifyClassFile(String className, byte[] classfileBuffer);
 }
