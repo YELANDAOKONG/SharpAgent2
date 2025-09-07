@@ -1,5 +1,8 @@
 package xyz.dkos.sharploader.agent;
 
+import xyz.dkos.sharploader.agent.loader.ClassTransformer;
+import xyz.dkos.sharploader.agent.loader.CustomClassLoader;
+
 import java.lang.instrument.Instrumentation;
 
 public class Main {
@@ -36,7 +39,6 @@ public class Main {
 
         CustomClassLoader classLoader = new CustomClassLoader();
         Thread.currentThread().setContextClassLoader(classLoader);
-        // 注册类转换器
         inst.addTransformer(new ClassTransformer());
     }
 }
