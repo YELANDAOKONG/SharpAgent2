@@ -32,5 +32,6 @@ public class Main {
         }
 
         System.out.println("Loader initialization completed. ");
+        Logger.info("Loader initialization completed. ");
     }
 }
