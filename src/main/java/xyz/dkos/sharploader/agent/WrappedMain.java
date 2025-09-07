@@ -77,9 +77,14 @@ public class WrappedMain {
                 mainClass = Class.forName(mainClassName);
                 Logger.info("(Main) Loaded main class with custom classloader");
             } catch (ClassNotFoundException e) {
-                Logger.info("(Main) Custom classloader failed, trying system classloader");
-                mainClass = classLoader.loadClass(mainClassName);
-                Logger.info("(Main) Loaded main class with system classloader");
+                try {
+                    Logger.info("(Main) Custom classloader failed, trying system classloader");
+                    mainClass = classLoader.loadClass(mainClassName);
+                    Logger.info("(Main) Loaded main class with system classloader");
+                }catch (ClassNotFoundException e2) {
+                    Logger.error("(Main) Custom classloader failed");
+                    return;
+                }
             }
 
             Method mainMethod = mainClass.getMethod("main", String[].class);
