@@ -2,6 +2,8 @@ package xyz.dkos.sharploader.agent;
 
 import xyz.dkos.sharploader.agent.loader.ClassTransformer;
 import xyz.dkos.sharploader.agent.loader.CustomClassLoader;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class WrappedMain {
 
@@ -38,8 +40,22 @@ public class WrappedMain {
         Main.premainInst.addTransformer(new ClassTransformer());
         Logger.info("Custom classloader created.");
 
-        // TODO...
+        String mainClassName = System.getenv("MAIN");
+        if (mainClassName == null || mainClassName.trim().isEmpty()) {
+            Logger.error("Environment variable MAIN is not set or empty.");
+            System.exit(-255);
+        }
 
-
+        try {
+            Class<?> mainClass = classLoader.loadClass(mainClassName);
+            Method mainMethod = mainClass.getMethod("main", String[].class);
+            mainMethod.invoke(null, (Object) args);
+            System.exit(0);
+        } catch (Exception e) {
+            Logger.error("Failed to start main class: " + mainClassName);
+            Logger.error(e.getMessage());
+            Logger.trace(Arrays.toString(e.getStackTrace()));
+            System.exit(-255);
+        }
     }
 }
