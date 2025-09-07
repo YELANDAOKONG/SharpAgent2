@@ -31,7 +31,12 @@ public class Main {
             }
         }
 
-        System.out.println("Loader initialization completed. ");
-        Logger.info("Loader initialization completed. ");
+        System.out.println("Loader initialization completed.");
+        Logger.info("Loader initialization completed.");
+
+        CustomClassLoader classLoader = new CustomClassLoader();
+        Thread.currentThread().setContextClassLoader(classLoader);
+        // 注册类转换器
+        inst.addTransformer(new ClassTransformer());
     }
 }
