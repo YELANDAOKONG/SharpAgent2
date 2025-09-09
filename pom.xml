@@ -12,6 +12,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <shade.prefix>xyz.dkos.sharploader.shaded</shade.prefix>
     </properties>
 
     <dependencies>
@@ -50,7 +51,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -58,6 +59,21 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.objectweb.asm</pattern>
+                                    <shadedPattern>${shade.prefix}.asm</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.bytebuddy</pattern>
+                                    <shadedPattern>${shade.prefix}.bytebuddy</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.ow2.asm</pattern>
+                                    <shadedPattern>${shade.prefix}.ow2.asm</shadedPattern>
+                                </relocation>
+                            </relocations>
+
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>xyz.dkos.sharploader.agent.WrappedMain</mainClass>
@@ -69,6 +85,9 @@
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
+
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>shaded</shadedClassifierName>
                         </configuration>
                     </execution>
                 </executions>
