@@ -2,6 +2,7 @@ package xyz.dkos.sharploader.agent;
 
 public class Logger {
     // Native method declarations
+    public static native void standard(String message);
     public static native void all(String message);
     public static native void trace(String message);
     public static native void debug(String message);
@@ -12,6 +13,7 @@ public class Logger {
     public static native void off(String message);
 
     public static void test(){
+        Logger.standard("(Test) Hello, World!");
         Logger.all("(Test) Hello, World! ");
         Logger.trace("(Test) Hello, World! ");
         Logger.debug("(Test) Hello, World! ");
@@ -23,6 +25,7 @@ public class Logger {
     }
 
     public static void test(long i){
+        Logger.standard("(Test) Hello, World!");
         Logger.all("(Test) Hello, World! (" + i + ")");
         Logger.trace("(Test) Hello, World! (" + i + ")");
         Logger.debug("(Test) Hello, World! (" + i + ")");
