@@ -13,7 +13,7 @@ public class Logger {
     public static native void off(String message);
 
     public static void test(){
-        Logger.standard("(Test) Hello, World!");
+        Logger.standard("[Standard] (Test) Hello, World!");
         Logger.all("(Test) Hello, World! ");
         Logger.trace("(Test) Hello, World! ");
         Logger.debug("(Test) Hello, World! ");
@@ -25,7 +25,7 @@ public class Logger {
     }
 
     public static void test(long i){
-        Logger.standard("(Test) Hello, World!");
+        Logger.standard("[Standard] (Test) Hello, World!");
         Logger.all("(Test) Hello, World! (" + i + ")");
         Logger.trace("(Test) Hello, World! (" + i + ")");
         Logger.debug("(Test) Hello, World! (" + i + ")");

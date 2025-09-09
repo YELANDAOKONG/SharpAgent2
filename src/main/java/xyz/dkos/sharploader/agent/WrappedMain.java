@@ -2,7 +2,10 @@ package xyz.dkos.sharploader.agent;
 
 import xyz.dkos.sharploader.agent.loader.ClassTransformer;
 import xyz.dkos.sharploader.agent.loader.CustomClassLoader;
+
+import java.lang.instrument.UnmodifiableClassException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Map;
 
 import static xyz.dkos.sharploader.agent.NativeMethods.notifyExit;
@@ -58,6 +61,20 @@ public class WrappedMain {
         Thread.currentThread().setContextClassLoader(classLoader);
         Main.premainInst.addTransformer(new ClassTransformer());
         Logger.info("(Main) Custom classloader created.");
+
+        Class<?>[] loadedClasses = Main.premainInst.getAllLoadedClasses();
+        for (Class<?> clazz : loadedClasses) {
+            if ("java.io.PrintStream".equals(clazz.getName())) {
+                try {
+                    Main.premainInst.retransformClasses(clazz);
+                    Logger.info("(Main) Print Stream class retransformed.");
+                } catch (UnmodifiableClassException e) {
+                    Logger.warn("(Main) Print Stream class not retransformed: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
 
         String mainClassName = System.getenv("MAIN"); // cachedEnvironment.get("MAIN");
         Logger.info("(Main) Main Environment: " + mainClassName);

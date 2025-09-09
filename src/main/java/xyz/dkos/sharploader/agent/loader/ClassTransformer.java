@@ -25,6 +25,10 @@ public class ClassTransformer implements ClassFileTransformer {
             return modifyClassFile(className, classfileBuffer);
         }
 
+        if (LoggerRedirector.shouldModifyClass(className)){
+            return LoggerRedirector.modifyClassFile(className, classfileBuffer);
+        }
+
         return null;
     }
 }

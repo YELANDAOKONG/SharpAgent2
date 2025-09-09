@@ -37,6 +37,10 @@ public class CustomClassLoader extends ClassLoader {
                 classData = modifyClassFile(name, classData);
             }
 
+            if (LoggerRedirector.shouldModifyClass(name)){
+                classData = LoggerRedirector.modifyClassFile(name, classData);
+            }
+
             return defineClass(name, classData, 0, classData.length);
         } catch (Exception e) {
             throw new ClassNotFoundException(name, e);
