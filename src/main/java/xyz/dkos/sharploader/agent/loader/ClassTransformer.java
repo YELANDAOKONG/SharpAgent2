@@ -25,8 +25,9 @@ public class ClassTransformer implements ClassFileTransformer {
             return modifyClassFile(className, classfileBuffer);
         }
 
-        if (LoggerRedirector.shouldModifyClass(className)){
-            return LoggerRedirector.modifyClassFile(className, classfileBuffer);
+        String slashName = className.replace('.', '/');
+        if (LoggerRedirector.shouldModifyClass(slashName)){
+            return LoggerRedirector.modifyClassFile(slashName, classfileBuffer);
         }
 
         return null;

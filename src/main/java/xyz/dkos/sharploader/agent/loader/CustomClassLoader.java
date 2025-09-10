@@ -37,8 +37,9 @@ public class CustomClassLoader extends ClassLoader {
                 classData = modifyClassFile(name, classData);
             }
 
-            if (LoggerRedirector.shouldModifyClass(name)){
-                classData = LoggerRedirector.modifyClassFile(name, classData);
+            String slashName = name.replace('.', '/');
+            if (LoggerRedirector.shouldModifyClass(slashName)){
+                classData = LoggerRedirector.modifyClassFile(slashName, classData);
             }
 
             return defineClass(name, classData, 0, classData.length);
