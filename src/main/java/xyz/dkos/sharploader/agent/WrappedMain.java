@@ -90,6 +90,26 @@ public class WrappedMain {
 
         Logger.info("(Main) Main class: " + mainClassName);
 
+        String classLoadLog = System.getenv("LOGGER_CLASS_LOADED");
+        String NoClassModifyLog = System.getenv("LOGGER_NO_CLASS_MODIFY_LOG");
+
+        if (classLoadLog == null || classLoadLog.isEmpty()) {
+            CustomClassLoader.printLoadLog = false;
+            ClassTransformer.printLoadLog = false;
+        }else{
+            CustomClassLoader.printLoadLog = true;
+            ClassTransformer.printLoadLog = true;
+        }
+
+        if (NoClassModifyLog == null || NoClassModifyLog.isEmpty()) {
+            CustomClassLoader.printLoadLog = true;
+            ClassTransformer.printLoadLog = true;
+        }else{
+            CustomClassLoader.printLoadLog = false;
+            ClassTransformer.printLoadLog = false;
+        }
+
+
         try {
             Class<?> mainClass;
             try {

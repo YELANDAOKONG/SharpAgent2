@@ -10,6 +10,9 @@ import static xyz.dkos.sharploader.agent.NativeMethods.shouldModifyClass;
 
 public class CustomClassLoader extends ClassLoader {
 
+    public static boolean printLoadLog = false;
+    public static boolean printModifyLog = true;
+
     public CustomClassLoader() {
         super(getSystemClassLoader());
     }
@@ -31,9 +34,13 @@ public class CustomClassLoader extends ClassLoader {
             }
             byte[] classData = baos.toByteArray();
 
-            Logger.debug("(ClassLoader) Class: " + name);
+            if (printLoadLog) {
+                Logger.debug("(ClassLoader) Class: " + name);
+            }
             if (shouldModifyClass(name)) {
-                Logger.debug("(ClassLoader) Modify: " + name);
+                if (printModifyLog) {
+                    Logger.debug("(ClassLoader) Modify: " + name);
+                }
                 classData = modifyClassFile(name, classData);
             }
 
