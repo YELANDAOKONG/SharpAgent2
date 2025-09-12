@@ -102,11 +102,11 @@ public class WrappedMain {
         }
 
         if (NoClassModifyLog == null || NoClassModifyLog.isEmpty()) {
-            CustomClassLoader.printLoadLog = true;
-            ClassTransformer.printLoadLog = true;
+            CustomClassLoader.printModifyLog = true;
+            ClassTransformer.printModifyLog = true;
         }else{
-            CustomClassLoader.printLoadLog = false;
-            ClassTransformer.printLoadLog = false;
+            CustomClassLoader.printModifyLog = false;
+            ClassTransformer.printModifyLog = false;
         }
 
 
